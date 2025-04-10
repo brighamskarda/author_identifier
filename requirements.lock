@@ -1,0 +1,5 @@
+# This code was written with python 3.12.9.
+
+nltk==3.9.1
+pandas==2.2.3
+kagglehub==0.3.10
