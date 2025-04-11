@@ -61,47 +61,11 @@ def main():
     print("Tokenized train data shape:", tokenized_train_emails.get_shape())
     num_features = tokenized_train_emails.get_shape()[1]
 
-    HIDDEN_LAYER_SIZE = 250
+    HIDDEN_LAYER_SIZE = 2000
     BATCH_SIZE = 32
-    N_ITERATIONS = 12501
+    N_ITERATIONS = 2501
     model = nn.Sequential(
         nn.Linear(num_features, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
@@ -144,8 +108,6 @@ def main():
     print(f"Final test loss: {test_losses[-1]}")
     print(f"Final train accuracy: {evaluate_model(model, train_dataloader)}")
     print(f"Final test accuracy: {evaluate_model(model, test_dataloader)}")
-
-    input("Hit enter to close")
 
 
 def plot_losses(train_losses: list[float], test_losses: list[float]):
