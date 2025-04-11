@@ -61,11 +61,17 @@ def main():
     print("Tokenized train data shape:", tokenized_train_emails.get_shape())
     num_features = tokenized_train_emails.get_shape()[1]
 
-    HIDDEN_LAYER_SIZE = 2000
+    HIDDEN_LAYER_SIZE = 500
     BATCH_SIZE = 32
     N_ITERATIONS = 1251
     model = nn.Sequential(
         nn.Linear(num_features, HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.ReLU(),
