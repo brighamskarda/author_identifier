@@ -63,25 +63,34 @@ def main():
 
     HIDDEN_LAYER_SIZE = 500
     BATCH_SIZE = 32
-    N_ITERATIONS = 7501
+    N_ITERATIONS = 5001
     model = nn.Sequential(
         nn.Linear(num_features, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, NUM_AUTHORS),
     ).to(DEVICE)
