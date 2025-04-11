@@ -32,11 +32,14 @@ DEVICE = torch.device("cuda")
 class EmailDataSet(Dataset):
     def __init__(self, x, y):
         super().__init__()
-        self.__x = x
+        self.__x: spmatrix = x
         self.__y = y
 
     def __getitem__(self, index):
-        return self.__x[index], self.__y[index]
+        return (
+            torch.Tensor(self.__x.getrow(index).todense()).squeeze().to(DEVICE),
+            self.__y[index],
+        )
 
     def __len__(self):
         return len(self.__y)
@@ -55,10 +58,10 @@ def main():
     tokenized_test_emails = tfidf.transform(test_data["content"])
     print("Tokenized train data shape:", tokenized_train_emails.get_shape())
     num_features = tokenized_train_emails.get_shape()[1]
-    tokenized_train_emails = tokenized_train_emails.todense()
-    tokenized_train_emails = torch.Tensor(tokenized_train_emails).to(DEVICE)
-    tokenized_test_emails = tokenized_test_emails.todense()
-    tokenized_test_emails = torch.Tensor(tokenized_test_emails).to(DEVICE)
+    # tokenized_train_emails = tokenized_train_emails.todense()
+    # tokenized_train_emails = torch.Tensor(tokenized_train_emails).to(DEVICE)
+    # tokenized_test_emails = tokenized_test_emails.todense()
+    # tokenized_test_emails = torch.Tensor(tokenized_test_emails).to(DEVICE)
 
     HIDDEN_LAYER_SIZE = 2000
     BATCH_SIZE = 32
