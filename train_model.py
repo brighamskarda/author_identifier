@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import os
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
@@ -25,6 +26,7 @@ import torch.optim as optim
 import time
 import matplotlib.pyplot as plt
 from scipy.sparse import spmatrix
+from data_cleaner import NUM_AUTHORS
 
 DEVICE = torch.device("cuda")
 
@@ -58,10 +60,6 @@ def main():
     tokenized_test_emails = tfidf.transform(test_data["content"])
     print("Tokenized train data shape:", tokenized_train_emails.get_shape())
     num_features = tokenized_train_emails.get_shape()[1]
-    # tokenized_train_emails = tokenized_train_emails.todense()
-    # tokenized_train_emails = torch.Tensor(tokenized_train_emails).to(DEVICE)
-    # tokenized_test_emails = tokenized_test_emails.todense()
-    # tokenized_test_emails = torch.Tensor(tokenized_test_emails).to(DEVICE)
 
     HIDDEN_LAYER_SIZE = 2000
     BATCH_SIZE = 32
@@ -71,7 +69,7 @@ def main():
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, 5),
+        nn.Linear(HIDDEN_LAYER_SIZE, NUM_AUTHORS),
     ).to(DEVICE)
 
     optimizer = optim.Adam(model.parameters())
@@ -104,18 +102,20 @@ def main():
 
 
 def plot_losses(train_losses: list[float], test_losses: list[float]):
+    if not os.path.exists("./imgs"):
+        os.makedirs("./imgs")
     x_axis = [a * 25 for a, _ in enumerate(train_losses)]
     plt.plot(x_axis, train_losses)
     plt.title("Train Losses")
     plt.xlabel("Batch Number")
     plt.ylabel("Loss")
-    plt.show(block=False)
+    plt.savefig("./imgs/train.png")
     plt.figure()
     plt.plot(x_axis, test_losses)
     plt.title("Test Losses")
     plt.xlabel("Batch Number")
     plt.ylabel("Loss")
-    plt.show(block=False)
+    plt.savefig("./imgs/test.png")
 
 
 def evaluate_model(model: nn.Module, dataloader: DataLoader) -> float:

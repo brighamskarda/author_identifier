@@ -25,6 +25,9 @@ import kagglehub
 import os
 from sklearn.model_selection import train_test_split
 
+NUM_AUTHORS = 20
+NUM_EMAILS_PER_AUTHOR = 1250
+
 
 def main():
     path = (
@@ -52,11 +55,14 @@ def main():
     output_df = output_df[output_df["author"] != "enron.announcements@enron.com"]
     output_df = output_df[output_df["author"] != "no.address@enron.com"]
 
-    top_authors = output_df["author"].value_counts().head(5).index
+    top_authors = output_df["author"].value_counts().head(NUM_AUTHORS).index
+    print("Authors:", top_authors)
     author_emails = output_df[output_df["author"].isin(top_authors)]
     reduced_email_data = pd.DataFrame()
     for author in top_authors:
-        author_emails = output_df[output_df["author"] == author].head(1250)
+        author_emails = output_df[output_df["author"] == author].head(
+            NUM_EMAILS_PER_AUTHOR
+        )
         reduced_email_data = pd.concat(
             [reduced_email_data, author_emails], ignore_index=True
         )
@@ -68,6 +74,8 @@ def main():
     train = pd.DataFrame(train, columns=reduced_email_data.columns)
     test = pd.DataFrame(test, columns=reduced_email_data.columns)
 
+    print("Num Train Emails:", len(train))
+    print("Num Test Emails:", len(test))
     train.to_csv("./data/train_emails.csv", index=False)
     test.to_csv("./data/test_emails.csv", index=False)
 
