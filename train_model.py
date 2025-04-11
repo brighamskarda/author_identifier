@@ -63,7 +63,7 @@ def main():
 
     HIDDEN_LAYER_SIZE = 2000
     BATCH_SIZE = 32
-    N_ITERATIONS = 101
+    N_ITERATIONS = 1001
     model = nn.Sequential(
         nn.Linear(num_features, HIDDEN_LAYER_SIZE),
         nn.ReLU(),
