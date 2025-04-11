@@ -23,6 +23,7 @@
 import pandas as pd
 import kagglehub
 import os
+from sklearn.model_selection import train_test_split
 
 
 def main():
@@ -48,7 +49,27 @@ def main():
     output_df = output_df[output_df["content"] != ""]
     output_df = output_df.reindex()
     os.makedirs("data", exist_ok=True)
-    output_df.to_csv("./data/emails.csv", index=False)
+    output_df = output_df[output_df["author"] != "enron.announcements@enron.com"]
+    output_df = output_df[output_df["author"] != "no.address@enron.com"]
+
+    top_authors = output_df["author"].value_counts().head(5).index
+    author_emails = output_df[output_df["author"].isin(top_authors)]
+    reduced_email_data = pd.DataFrame()
+    for author in top_authors:
+        author_emails = output_df[output_df["author"] == author].head(1250)
+        reduced_email_data = pd.concat(
+            [reduced_email_data, author_emails], ignore_index=True
+        )
+
+    train, test = train_test_split(
+        reduced_email_data.to_numpy(), test_size=0.2, random_state=72
+    )
+
+    train = pd.DataFrame(train, columns=reduced_email_data.columns)
+    test = pd.DataFrame(test, columns=reduced_email_data.columns)
+
+    train.to_csv("./data/train_emails.csv", index=False)
+    test.to_csv("./data/test_emails.csv", index=False)
 
 
 def parse_message(message: str) -> tuple[str, str, str, str]:
