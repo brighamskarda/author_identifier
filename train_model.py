@@ -74,6 +74,15 @@ def main():
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, NUM_AUTHORS),
     ).to(DEVICE)
 
