@@ -66,9 +66,18 @@ def main():
 
     HIDDEN_LAYER_SIZE = 250
     BATCH_SIZE = 32
-    N_ITERATIONS = 2940 * 3
+    N_ITERATIONS = 2940 * 10
     model = nn.Sequential(
         nn.Linear(num_features, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
+        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
+        nn.ReLU(),
+        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
