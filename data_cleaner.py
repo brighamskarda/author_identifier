@@ -25,8 +25,8 @@ import kagglehub
 import os
 from sklearn.model_selection import train_test_split
 
-NUM_AUTHORS = 20
-NUM_EMAILS_PER_AUTHOR = 1250
+NUM_AUTHORS = 150
+NUM_EMAILS_PER_AUTHOR = 1000
 
 
 def main():

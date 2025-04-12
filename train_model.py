@@ -54,7 +54,10 @@ def main():
 
     print("Tokenizing emails")
     tfidf = TfidfVectorizer(
-        tokenizer=word_tokenize, preprocessor=None, token_pattern=None
+        tokenizer=word_tokenize,
+        preprocessor=None,
+        token_pattern=None,
+        max_features=50000,
     )
     tokenized_train_emails = tfidf.fit_transform(train_data["content"])
     tokenized_test_emails = tfidf.transform(test_data["content"])
@@ -63,18 +66,9 @@ def main():
 
     HIDDEN_LAYER_SIZE = 2000
     BATCH_SIZE = 32
-    N_ITERATIONS = 2501
+    N_ITERATIONS = 2940
     model = nn.Sequential(
         nn.Linear(num_features, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
-        nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
-        nn.ReLU(),
-        nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
         nn.BatchNorm1d(HIDDEN_LAYER_SIZE),
         nn.ReLU(),
         nn.Linear(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE),
