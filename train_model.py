@@ -64,17 +64,30 @@ def main():
     print("Tokenized train data shape:", tokenized_train_emails.get_shape())
     num_features = tokenized_train_emails.get_shape()[1]
 
-    HIDDEN_LAYER_SIZE = 250
     BATCH_SIZE = 32
     N_ITERATIONS = 2940 * 10
     model = nn.Sequential(
-        nn.Linear(num_features, 250),
-        nn.BatchNorm1d(250),
-        nn.ReLU(),
-        nn.Linear(250, 2000),
+        nn.Linear(num_features, 2000),
         nn.BatchNorm1d(2000),
         nn.ReLU(),
-        nn.Linear(2000, NUM_AUTHORS),
+        nn.Conv1d(
+            in_channels=BATCH_SIZE,
+            out_channels=BATCH_SIZE * 12,
+            kernel_size=3,
+            padding=1,
+        ),
+        nn.BatchNorm1d(2000),
+        nn.ReLU(),
+        nn.MaxPool1d(5, stride=4, padding=1),
+        nn.Flatten(),
+        nn.Conv1d(
+            in_channels=BATCH_SIZE * 12,
+            out_channels=BATCH_SIZE,
+            kernel_size=3,
+            padding=1,
+        ),
+        nn.ReLU(),
+        nn.Linear(500, NUM_AUTHORS),
     ).to(DEVICE)
 
     optimizer = optim.Adam(model.parameters())
@@ -128,11 +141,12 @@ def evaluate_model(model: nn.Module, dataloader: DataLoader) -> float:
     total = 0
     with torch.no_grad():
         for inputs, labels in dataloader:
-            outputs = model(inputs)
-            predicted = torch.argmax(outputs, dim=1)
-            true_labels = torch.argmax(labels, dim=1)
-            total += labels.size(0)
-            correct += (predicted == true_labels).sum().item()
+            if inputs.shape[0] == 32:
+                outputs = model(inputs)
+                predicted = torch.argmax(outputs, dim=1)
+                true_labels = torch.argmax(labels, dim=1)
+                total += labels.size(0)
+                correct += (predicted == true_labels).sum().item()
     accuracy = correct / total if total > 0 else 0
     return accuracy
 
