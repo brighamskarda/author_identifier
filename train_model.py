@@ -68,25 +68,13 @@ def main():
     BATCH_SIZE = 32
     N_ITERATIONS = 2940 * 10
     model = nn.Sequential(
-        nn.Linear(num_features, 1000),
-        nn.BatchNorm1d(1000),
-        nn.ReLU(),
-        nn.Linear(1000, 250),
+        nn.Linear(num_features, 250),
         nn.BatchNorm1d(250),
         nn.ReLU(),
-        nn.Linear(250, 250),
-        nn.BatchNorm1d(250),
+        nn.Linear(250, 2000),
+        nn.BatchNorm1d(2000),
         nn.ReLU(),
-        nn.Linear(250, 250),
-        nn.BatchNorm1d(250),
-        nn.ReLU(),
-        nn.Linear(250, 250),
-        nn.BatchNorm1d(250),
-        nn.ReLU(),
-        nn.Linear(250, 250),
-        nn.BatchNorm1d(250),
-        nn.ReLU(),
-        nn.Linear(250, NUM_AUTHORS),
+        nn.Linear(2000, NUM_AUTHORS),
     ).to(DEVICE)
 
     optimizer = optim.Adam(model.parameters())
