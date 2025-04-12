@@ -57,7 +57,7 @@ def main():
         tokenizer=word_tokenize,
         preprocessor=None,
         token_pattern=None,
-        max_features=50000,
+        max_features=25000,
     )
     tokenized_train_emails = tfidf.fit_transform(train_data["content"])
     tokenized_test_emails = tfidf.transform(test_data["content"])
